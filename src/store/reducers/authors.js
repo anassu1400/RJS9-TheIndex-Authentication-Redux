@@ -28,8 +28,8 @@ const reducer = (state = initialState, action) => {
     case actionTypes.POST_AUTHOR:
       return {
         ...state,
-        authors: state.authors.concat(action.payload),
-        filteredAuthors: state.authors.concat(action.payload)
+        authors: [action.payload].concat(state.authors),
+        filteredAuthors: [action.payload].concat(state.authors)
       };
     default:
       return state;

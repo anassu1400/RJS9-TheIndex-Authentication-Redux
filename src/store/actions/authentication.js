@@ -20,13 +20,15 @@ const setAuthToken = token => {
 export const checkForExpiredToken = () => {
   return dispatch => {
     // Get token
-    const token = localStorage.token;
+    const token = localStorage.getItem("token");
 
     if (token) {
       const currentTime = Date.now() / 1000;
 
       // Decode token and get user info
       const user = jwt_decode(token);
+
+      console.log((user.exp - currentTime) / 60);
 
       // Check token expiration
       if (user.exp >= currentTime) {
@@ -70,7 +72,10 @@ export const signup = (userData, history) => {
   };
 };
 
-export const logout = () => setCurrentUser();
+export const logout = () => {
+  setAuthToken();
+  return setCurrentUser();
+};
 
 const setCurrentUser = user => ({
   type: actionTypes.SET_CURRENT_USER,

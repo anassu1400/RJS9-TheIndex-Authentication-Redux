@@ -9,7 +9,7 @@ import Loading from "./Loading";
 
 class AuthorsList extends Component {
   render() {
-    const { loading, filteredAuthors } = this.props;
+    const { loading, filteredAuthors, user } = this.props;
 
     const authorCards = filteredAuthors.map(author => (
       <AuthorCard key={author.first_name + author.last_name} author={author} />
@@ -23,7 +23,8 @@ class AuthorsList extends Component {
           <h3>Authors</h3>
           <SearchBar />
           <div className="row">
-            <AddAuthorCard /> {authorCards}
+            {user && <AddAuthorCard />}
+            {authorCards}
           </div>
         </div>
       );
@@ -34,7 +35,8 @@ class AuthorsList extends Component {
 const mapStateToProps = state => {
   return {
     loading: state.rootAuthors.loading,
-    filteredAuthors: state.rootAuthors.filteredAuthors
+    filteredAuthors: state.rootAuthors.filteredAuthors,
+    user: state.rootAuth.user
   };
 };
 

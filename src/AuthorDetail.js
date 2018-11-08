@@ -15,10 +15,11 @@ class AuthorDetail extends Component {
   }
 
   render() {
-    if (this.props.loading) {
+    const { loading, author, user } = this.props;
+
+    if (loading) {
       return <Loading />;
     } else {
-      const author = this.props.author;
       return (
         <div className="author">
           <div>
@@ -30,7 +31,7 @@ class AuthorDetail extends Component {
             />
           </div>
           <BookTable books={author.books} />
-          <AddBookModal authorID={author.id} />
+          {user && <AddBookModal authorID={author.id} />}
         </div>
       );
     }
@@ -40,7 +41,8 @@ class AuthorDetail extends Component {
 const mapStateToProps = state => {
   return {
     author: state.rootAuthor.author,
-    loading: state.rootAuthor.loading
+    loading: state.rootAuthor.loading,
+    user: state.rootAuth.user
   };
 };
 

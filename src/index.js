@@ -10,6 +10,7 @@ import thunk from "redux-thunk";
 import authorReducer from "./store/reducers/author";
 import authorsReducer from "./store/reducers/authors";
 import authReducer from "./store/reducers/authentication";
+import errorReducer from "./store/reducers/errors";
 
 // Components
 import App from "./App";
@@ -17,7 +18,8 @@ import App from "./App";
 const rootReducer = combineReducers({
   rootAuthor: authorReducer,
   rootAuthors: authorsReducer,
-  rootAuth: authReducer
+  rootAuth: authReducer,
+  rootErrors: errorReducer
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

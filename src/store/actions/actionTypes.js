@@ -5,3 +5,4 @@ export const POST_AUTHOR = "POST_AUTHOR";
 export const POST_BOOK = "POST_BOOK";
 export const SET_AUTHOR_LOADING = "SET_AUTHOR_LOADING";
 export const SET_CURRENT_USER = "SET_CURRENT_USER";
+export const SET_ERRORS = "SET_ERRORS";

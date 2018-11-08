@@ -19,6 +19,10 @@ class Signup extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentWillUnmount() {
+    this.props.resetForm();
+  }
+
   handleChange(event) {
     this.setState({ [event.target.name]: event.target.value });
   }
@@ -30,7 +34,7 @@ class Signup extends Component {
 
   render() {
     const { username, email, password } = this.state;
-    const { user } = this.props;
+    const { user, errors } = this.props;
 
     if (user) {
       return <Redirect to="/authors" />;
@@ -40,7 +44,7 @@ class Signup extends Component {
       <div className="col-6 mx-auto">
         <div className="card my-5">
           <div className="card-body">
-            <form onSubmit={this.handleSubmit}>
+            <form onSubmit={this.handleSubmit} noValidate>
               <div className="form-group">
                 <label htmlFor="username">Username</label>
                 <input
@@ -52,6 +56,9 @@ class Signup extends Component {
                   placeholder="Username"
                   onChange={this.handleChange}
                 />
+                {errors.username && (
+                  <div className="invalid-feedback">{errors.username}</div>
+                )}
               </div>
               <div className="form-group">
                 <label htmlFor="email">Email</label>
@@ -64,6 +71,9 @@ class Signup extends Component {
                   placeholder="Email"
                   onChange={this.handleChange}
                 />
+                {errors.email && (
+                  <div className="invalid-feedback">{errors.email}</div>
+                )}
               </div>
               <div className="form-group">
                 <label htmlFor="password">Password</label>
@@ -76,6 +86,9 @@ class Signup extends Component {
                   placeholder="Password"
                   onChange={this.handleChange}
                 />
+                {errors.password && (
+                  <div className="invalid-feedback">{errors.password}</div>
+                )}
               </div>
 
               <button type="submit" className="btn btn-primary">
@@ -93,11 +106,13 @@ class Signup extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.rootAuth.user
+  user: state.rootAuth.user,
+  errors: state.rootErrors
 });
 
 const mapDispatchToProps = dispatch => ({
-  signup: userData => dispatch(actionCreators.signup(userData))
+  signup: userData => dispatch(actionCreators.signup(userData)),
+  resetForm: () => dispatch(actionCreators.setErrors({}))
 });
 
 export default connect(

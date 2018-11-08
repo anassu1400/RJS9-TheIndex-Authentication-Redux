@@ -3,6 +3,8 @@ import jwt_decode from "jwt-decode";
 
 import * as actionTypes from "./actionTypes";
 
+import { setErrors } from "./common";
+
 const instance = axios.create({
   baseURL: "https://the-index-api.herokuapp.com"
 });
@@ -53,7 +55,9 @@ export const login = userData => {
         setAuthToken(user.token);
         dispatch(setCurrentUser(decodedUser));
       })
-      .catch(err => console.error(err.response));
+      .catch(err => {
+        dispatch(setErrors(err.response.data));
+      });
   };
 };
 
@@ -68,7 +72,7 @@ export const signup = (userData, history) => {
         dispatch(setCurrentUser(decodedUser));
         history.push("/");
       })
-      .catch(err => console.error(err.response));
+      .catch(err => dispatch(setErrors(err.response.data)));
   };
 };
 

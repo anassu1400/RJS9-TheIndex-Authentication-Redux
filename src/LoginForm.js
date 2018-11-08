@@ -18,6 +18,10 @@ class Login extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentWillUnmount() {
+    this.props.resetForm();
+  }
+
   handleChange(event) {
     this.setState({ [event.target.name]: event.target.value });
   }
@@ -29,7 +33,7 @@ class Login extends Component {
 
   render() {
     const { username, password } = this.state;
-    const { user } = this.props;
+    const { user, errors } = this.props;
 
     if (user) {
       return <Redirect to="/authors" />;
@@ -39,6 +43,11 @@ class Login extends Component {
       <div className="col-6 mx-auto">
         <div className="card my-5">
           <div className="card-body">
+            {errors.non_field_errors && (
+              <div className="alert alert-danger" role="alert">
+                {errors.non_field_errors}
+              </div>
+            )}
             <form onSubmit={this.handleSubmit}>
               <div className="form-group">
                 <label htmlFor="username">Username</label>
@@ -51,6 +60,9 @@ class Login extends Component {
                   placeholder="Username"
                   onChange={this.handleChange}
                 />
+                {errors.username && (
+                  <div className="invalid-feedback">{errors.username}</div>
+                )}
               </div>
               <div className="form-group">
                 <label htmlFor="password">Password</label>
@@ -63,6 +75,9 @@ class Login extends Component {
                   placeholder="Password"
                   onChange={this.handleChange}
                 />
+                {errors.password && (
+                  <div className="invalid-feedback">{errors.password}</div>
+                )}
               </div>
 
               <button type="submit" className="btn btn-primary">
@@ -80,11 +95,13 @@ class Login extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.rootAuth.user
+  user: state.rootAuth.user,
+  errors: state.rootErrors
 });
 
 const mapDispatchToProps = dispatch => ({
-  login: userData => dispatch(actionCreators.login(userData))
+  login: userData => dispatch(actionCreators.login(userData)),
+  resetForm: () => dispatch(actionCreators.setErrors({}))
 });
 
 export default connect(

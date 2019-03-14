@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-
+import * as actionCreators from "./store/actions";
+import { connect } from "react-redux";
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -9,7 +10,6 @@ class Login extends Component {
       username: "",
       password: ""
     };
-
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -17,10 +17,10 @@ class Login extends Component {
   handleChange(event) {
     this.setState({ [event.target.name]: event.target.value });
   }
-
+  //TODO
   handleSubmit(event) {
     event.preventDefault();
-    alert("I DON'T WORK YET");
+    this.props.login(this.state, this.props.history);
   }
 
   render() {
@@ -69,5 +69,12 @@ class Login extends Component {
     );
   }
 }
-
-export default Login;
+const mapDispatchToProps = dispatch => {
+  return {
+    login: (user, history) => dispatch(actionCreators.login(user, history))
+  };
+};
+export default connect(
+  null,
+  mapDispatchToProps
+)(Login);

@@ -4,3 +4,5 @@ export const FETCH_AUTHOR_DETAIL = "FETCH_AUTHOR_DETAIL";
 export const POST_AUTHOR = "POST_AUTHOR";
 export const POST_BOOK = "POST_BOOK";
 export const SET_AUTHOR_LOADING = "SET_AUTHOR_LOADING";
+//add set_user
+export const SET_CURRENT_USER = "SET_CURRENT_USER";

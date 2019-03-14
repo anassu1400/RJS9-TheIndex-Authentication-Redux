@@ -10,10 +10,9 @@ import thunk from "redux-thunk";
 import authorReducer from "./store/reducers/author";
 import authorsReducer from "./store/reducers/authors";
 import authReducer from "./store/reducers/authentication";
-
+import * as actionCreators from "./store/actions";
 // Components
 import App from "./App";
-
 const rootReducer = combineReducers({
   rootAuthor: authorReducer,
   rootAuthors: authorsReducer,
@@ -26,6 +25,7 @@ const store = createStore(
   rootReducer,
   composeEnhancers(applyMiddleware(thunk))
 );
+store.dispatch(actionCreators.checkForExpiredToken());
 
 ReactDOM.render(
   <Provider store={store}>
